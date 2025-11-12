@@ -15,23 +15,12 @@ const api = axios.create({
   },
 });
 
-// 请求拦截器 - 添加 Stack Auth token
+// 请求拦截器 - 添加 token
 api.interceptors.request.use(
-  async (config) => {
-    try {
-      // 从 Stack Auth SDK 获取 token
-      const { stackApp } = await import('./stackAuthConfig');
-      const user = stackApp.getUser();
-      
-      if (user) {
-        // 获取 JWT token
-        const token = await user.getIdToken();
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-      }
-    } catch (error) {
-      console.error('获取 token 失败:', error);
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -43,11 +32,11 @@ api.interceptors.request.use(
 // 响应拦截器
 api.interceptors.response.use(
   (response) => response.data,
-  async (error) => {
+  (error) => {
     if (error.response?.status === 401) {
-      // 认证失败，重定向到 Stack Auth 登录页面
-      const { stackApp } = await import('./stackAuthConfig');
-      stackApp.redirectToSignIn();
+      // 认证失败，清除 token 并重定向到登录页
+      localStorage.removeItem('token');
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
@@ -56,6 +45,8 @@ api.interceptors.response.use(
 // ============= 认证相关 =============
 
 export const authAPI = {
+  login: (data) => api.post('/auth/login', data),
+  register: (data) => api.post('/auth/register', data),
   getProfile: () => api.get('/auth/me'),
 };
 

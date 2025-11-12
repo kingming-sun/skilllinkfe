@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useStackApp, useUser } from "@stackframe/stack";
 import { authAPI } from './api';
 
 const AuthContext = createContext(null);
@@ -13,43 +12,53 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const stackApp = useStackApp();
-  const stackUser = useUser();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 当 Stack Auth 用户改变时，同步到后端
-    const syncUser = async () => {
-      if (stackUser) {
-        try {
-          // 从后端获取用户完整信息
-          const profile = await authAPI.getProfile();
+    // 检查是否有 token
+    const token = localStorage.getItem('token');
+    if (token) {
+      // 从后端获取用户信息
+      authAPI.getProfile()
+        .then(profile => {
           setUser(profile);
-        } catch (error) {
+          setLoading(false);
+        })
+        .catch(error => {
           console.error('获取用户信息失败:', error);
-        }
-      } else {
-        setUser(null);
-      }
+          localStorage.removeItem('token');
+          setLoading(false);
+        });
+    } else {
       setLoading(false);
-    };
+    }
+  }, []);
 
-    syncUser();
-  }, [stackUser]);
-
-  const login = () => {
-    // 使用 Stack Auth 登录页面
-    stackApp.redirectToSignIn();
+  const login = async (email, password) => {
+    try {
+      const response = await authAPI.login({ email, password });
+      localStorage.setItem('token', response.access_token);
+      setUser(response.user);
+      return response;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const register = () => {
-    // 使用 Stack Auth 注册页面
-    stackApp.redirectToSignUp();
+  const register = async (userData) => {
+    try {
+      const response = await authAPI.register(userData);
+      localStorage.setItem('token', response.access_token);
+      setUser(response.user);
+      return response;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const logout = async () => {
-    await stackApp.signOut();
+  const logout = () => {
+    localStorage.removeItem('token');
     setUser(null);
   };
 
@@ -63,7 +72,6 @@ export const AuthProvider = ({ children }) => {
       register, 
       logout, 
       isProvider,
-      stackUser 
     }}>
       {children}
     </AuthContext.Provider>
