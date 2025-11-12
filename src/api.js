@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+// 根据当前域名自动判断使用哪个 API 地址
+const isProduction = window.location.hostname !== 'localhost';
+const API_URL = isProduction 
+  ? 'https://skilllinkbe.onrender.com/api'  // 生产环境
+  : 'http://localhost:8000/api';             // 开发环境
 
 // 创建 axios 实例
 const api = axios.create({
