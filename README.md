@@ -1,30 +1,16 @@
-# React 前端应用
+# SkillLink 前端
 
-这是一个使用 React + Vite 构建的现代化前端应用。
+基于 React + Vite 的现代化单页应用
 
-## 功能特性
+## 🚀 快速开始
 
-- ✅ 现代化 UI/UX 设计
-- ✅ 响应式布局
-- ✅ 与 FastAPI 后端集成
-- ✅ 完整的 CRUD 操作
-- ✅ 实时状态更新
-
-## 技术栈
-
-- **React** - UI 库
-- **Vite** - 构建工具
-- **ES6+** - 现代 JavaScript
-
-## 快速开始
-
-### 1. 安装依赖
+### 安装依赖
 
 ```bash
 npm install
 ```
 
-### 2. 运行开发服务器
+### 启动开发服务器
 
 ```bash
 npm run dev
@@ -32,74 +18,142 @@ npm run dev
 
 应用将在 http://localhost:3000 启动
 
-### 3. 构建生产版本
+### 构建生产版本
 
 ```bash
 npm run build
 ```
 
-构建产物将生成在 `dist/` 目录
+## 📁 项目结构
 
-### 4. 预览生产构建
+```
+frontend/src/
+├── api.js                # API 接口封装
+├── AuthContext.jsx       # 认证上下文
+├── App.jsx              # 主应用组件
+├── App.css              # 全局样式
+├── main.jsx             # 入口文件
+├── components/          # 共享组件
+│   ├── Header.jsx       # 导航栏
+│   └── Header.css
+└── pages/               # 页面组件
+    ├── Home.jsx         # 首页
+    ├── SkillList.jsx    # 技能列表
+    ├── SkillDetail.jsx  # 技能详情
+    ├── Login.jsx        # 登录
+    ├── Register.jsx     # 注册
+    ├── MyOrders.jsx     # 我的订单
+    ├── MySkills.jsx     # 我的技能
+    ├── CreateSkill.jsx  # 发布技能
+    └── Profile.jsx      # 个人中心
+```
+
+## 🎨 主要功能
+
+### 公开页面
+- 首页（搜索、分类、推荐）
+- 技能列表（筛选、搜索）
+- 技能详情（查看、预约）
+- 登录/注册
+
+### 需要登录
+- 我的订单
+- 个人中心
+
+### 服务提供者专属
+- 我的技能
+- 发布技能
+
+## 🔐 认证
+
+使用 Context API 管理用户状态：
+- `AuthContext` 提供用户信息和认证方法
+- `ProtectedRoute` 保护需要登录的路由
+- `ProviderRoute` 保护服务提供者路由
+
+## 🌐 API 集成
+
+所有 API 调用封装在 `api.js` 中：
+- 自动添加认证 token
+- 统一错误处理
+- 拦截器处理响应
+
+## 🎨 样式
+
+每个页面组件都有对应的 CSS 文件，采用 BEM 命名规范。
+
+全局样式在 `App.css` 和 `index.css`。
+
+## 📦 依赖
+
+主要依赖：
+- react
+- react-dom
+- react-router-dom
+- axios
+- vite
+
+## 🔧 配置
+
+### Vite 配置
+
+`vite.config.js` 配置了：
+- 开发服务器端口（3000）
+- API 代理（代理到后端 8000 端口）
+
+## 🚀 部署
+
+### 构建
+
+```bash
+npm run build
+```
+
+### 预览
 
 ```bash
 npm run preview
 ```
 
-## 项目结构
+构建产物在 `dist/` 目录，可以部署到任何静态服务器。
 
-```
-frontend/
-├── src/
-│   ├── App.jsx          # 主应用组件
-│   ├── App.css          # 应用样式
-│   ├── main.jsx         # 入口文件
-│   └── index.css        # 全局样式
-├── public/              # 静态资源
-├── index.html           # HTML 模板
-├── vite.config.js       # Vite 配置
-├── package.json         # 依赖配置
-└── README.md           # 项目文档
-```
+## 📝 开发指南
 
-## 可用脚本
+### 添加新页面
 
-- `npm run dev` - 启动开发服务器
-- `npm run build` - 构建生产版本
-- `npm run preview` - 预览生产构建
-- `npm run lint` - 运行代码检查
+1. 在 `src/pages/` 创建组件
+2. 创建对应的 CSS 文件
+3. 在 `App.jsx` 添加路由
 
-## 配置
-
-### API 地址
-
-API 地址配置在 `src/App.jsx` 中：
+### 调用 API
 
 ```javascript
-const API_URL = 'http://localhost:8000'
+import { skillAPI } from './api';
+
+// 获取技能列表
+const skills = await skillAPI.getSkills({ category: 'sports' });
 ```
 
-### 代理配置
+### 使用认证
 
-Vite 代理配置在 `vite.config.js` 中，用于开发环境的 API 代理。
+```javascript
+import { useAuth } from './AuthContext';
 
-## 开发建议
+function MyComponent() {
+  const { user, logout, isProvider } = useAuth();
+  
+  // 使用用户信息
+}
+```
 
-1. **状态管理**: 对于复杂应用，考虑使用 Redux 或 Zustand
-2. **路由**: 添加 React Router 实现多页面应用
-3. **UI 组件库**: 集成 Material-UI 或 Ant Design
-4. **类型安全**: 迁移到 TypeScript
-5. **测试**: 使用 Vitest 和 React Testing Library
+## 🐛 调试
 
-## 浏览器支持
+- 开发模式会显示详细错误信息
+- 使用浏览器开发者工具
+- 检查网络请求
 
-- Chrome (最新版)
-- Firefox (最新版)
-- Safari (最新版)
-- Edge (最新版)
+## 📚 学习资源
 
-## 扩展阅读
-
-- [React 官方文档](https://react.dev/)
-- [Vite 官方文档](https://vitejs.dev/)
-- [MDN Web 文档](https://developer.mozilla.org/)
+- [React 文档](https://react.dev/)
+- [Vite 文档](https://vitejs.dev/)
+- [React Router 文档](https://reactrouter.com/)
