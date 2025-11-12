@@ -58,13 +58,29 @@
 3. 确保 **自动 HTTPS 重定向** 已启用
 4. 在 **边缘证书** 中确保 SSL 证书已激活
 
-### 4. 删除或修改旧的 DNS 记录
+### 4. Vercel 域名验证 TXT 记录
+
+**重要：** Vercel 的域名验证 TXT 记录（`_vercel`）**必须**设置为 **"仅 DNS"**（DNS Only），**不能**使用代理！
+
+**原因：**
+- Vercel 需要直接读取 DNS 记录来验证域名所有权
+- 如果使用代理，验证过程会失败
+- TXT 记录通常不需要代理，因为它们不用于流量路由
+
+**配置：**
+- 类型：`TXT`
+- 名称：`_vercel`
+- 内容：Vercel 提供的验证字符串（例如：`vc-domain-verify=...`）
+- 代理状态：❌ **仅 DNS**（灰色云朵，不代理）
+- TTL：自动或 10 分钟
+
+### 5. 删除或修改旧的 DNS 记录
 
 删除或修改以下不正确的记录：
 - ❌ A 记录：`skilllink.me` → `216.198.79.1`（如果存在且不正确）
 - ✅ 确保 `www` 的 CNAME 指向 `cname.vercel-dns.com` 而不是 `skilllinkfe.vercel.app`
 
-### 5. 等待 DNS 传播
+### 6. 等待 DNS 传播
 
 - DNS 更改通常需要 **5-30 分钟** 生效
 - 可以在 Cloudflare 的 DNS 页面查看记录状态
@@ -126,7 +142,8 @@ dig www.skilllink.me +short
 - [ ] 在 Vercel 中添加了 `skilllink.me` 域名
 - [ ] 在 Vercel 中添加了 `www.skilllink.me` 域名
 - [ ] Cloudflare 中配置了正确的 CNAME 或 A 记录
-- [ ] 代理状态设置为 **已代理**（橙色云朵）
+- [ ] A/CNAME 记录的代理状态设置为 **已代理**（橙色云朵）
+- [ ] **TXT 验证记录（`_vercel`）设置为 仅 DNS**（灰色云朵，不代理）⚠️
 - [ ] SSL/TLS 模式设置为 **完全（Full）**
 - [ ] 删除了旧的、不正确的 DNS 记录
 - [ ] 等待 DNS 传播完成

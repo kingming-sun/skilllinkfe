@@ -180,14 +180,70 @@
   cursor: not-allowed;
 }
 
+@media (max-width: 1024px) {
+  .create-container {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
+  .create-skill-page {
+    padding: 30px 15px;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .page-subtitle {
+    font-size: 1rem;
+  }
+  
   .create-form {
-    padding: 25px;
+    padding: 30px 20px;
+  }
+  
+  .form-section h2 {
+    font-size: 1.3rem;
   }
   
   .form-row,
   .radio-group {
     grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .btn-cancel,
+  .btn-submit {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-skill-page {
+    padding: 20px 10px;
+  }
+  
+  .page-title {
+    font-size: 1.6rem;
+  }
+  
+  .create-form {
+    padding: 20px 15px;
+  }
+  
+  .form-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+  }
+  
+  .btn-cancel,
+  .btn-submit {
+    padding: 14px;
+    font-size: 1rem;
   }
 }
 

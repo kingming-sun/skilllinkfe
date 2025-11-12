@@ -216,9 +216,35 @@
   text-decoration: underline;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .auth-page {
+    padding: 30px 20px;
+  }
+  
+  .auth-container {
+    max-width: 100%;
+  }
+  
   .auth-card {
-    padding: 40px 25px;
+    padding: 40px 30px;
+  }
+  
+  .auth-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-page {
+    padding: 20px 15px;
+  }
+  
+  .auth-card {
+    padding: 30px 20px;
+  }
+  
+  .auth-title {
+    font-size: 1.6rem;
   }
   
   .role-selector {
@@ -227,6 +253,25 @@
   
   .quick-login-buttons {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 25px 15px;
+  }
+  
+  .auth-title {
+    font-size: 1.4rem;
+  }
+  
+  .form-input {
+    padding: 12px 14px;
+  }
+  
+  .btn-submit {
+    padding: 14px;
+    font-size: 1rem;
   }
 }
 

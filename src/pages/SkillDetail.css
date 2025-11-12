@@ -340,23 +340,93 @@
   color: #666;
 }
 
+@media (max-width: 1200px) {
+  .skill-detail-container {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 1024px) {
   .skill-detail-container {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
   
   .booking-sidebar {
     position: static;
   }
+  
+  .booking-card {
+    max-width: 600px;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 768px) {
+  .skill-detail-page {
+    padding: 20px 15px;
+  }
+  
   .skill-main-content {
-    padding: 25px;
+    padding: 25px 20px;
   }
   
   .skill-title-large {
+    font-size: 1.8rem;
+  }
+  
+  .skill-meta {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .provider-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .info-grid {
+    gap: 15px;
+  }
+  
+  .booking-card {
+    padding: 25px 20px;
+  }
+  
+  .price-value {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .skill-detail-page {
+    padding: 15px 10px;
+  }
+  
+  .skill-main-content {
+    padding: 20px 15px;
+  }
+  
+  .skill-title-large {
+    font-size: 1.5rem;
+  }
+  
+  .skill-section h2 {
+    font-size: 1.3rem;
+  }
+  
+  .booking-card {
+    padding: 20px 15px;
+  }
+  
+  .price-value {
     font-size: 2rem;
+  }
+  
+  .btn-book-now {
+    padding: 15px;
+    font-size: 1rem;
   }
 }
 

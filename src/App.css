@@ -10,11 +10,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .app {
   min-height: 100vh;
   background: #f9fafb;
+  width: 100%;
 }
 
 .main-content {
